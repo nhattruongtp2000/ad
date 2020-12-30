@@ -53,11 +53,38 @@ namespace WebAPI.AdminApp.Controllers
             return View(result);
         }
 
+        //delete
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Delete(string id)
         {
-            return View();
+            return View(new OrderDeleteRequest()
+            {
+                Id = id
+            });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(OrderDeleteRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _orderApiClient.Delete(request.Id);
+            if (result)
+            {
+                TempData["result"] = "Xóa thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Xóa không thành công");
+            return View(request);
+        }
+
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
         //[HttpPost]
         //[Consumes("multipart/form-data")]

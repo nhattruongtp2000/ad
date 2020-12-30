@@ -18,7 +18,9 @@ namespace WebAPI.ApiIntegration
 
         Task<OrderVm> GetById( string id);
 
-        Task<bool> Create(CheckoutRequest request);
+        Task<bool> Delete(string id);
+
+
 
     }
 }

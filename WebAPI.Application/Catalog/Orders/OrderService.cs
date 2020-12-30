@@ -12,8 +12,7 @@ using WebAPI.Models;
 using Microsoft.AspNetCore.Http;
 using WebAPI.Utilities.Constants;
 using Newtonsoft.Json;
-
-
+using WebAPI.Utilities.Exceptions;
 
 namespace WebAPI.Application.Catalog.Orders
 {
@@ -69,9 +68,13 @@ namespace WebAPI.Application.Catalog.Orders
         //    return order.Id; 
         //}
 
-        public Task<int> Delete(string id)
+        public async Task<int> Delete(string id)
         {
-            throw new NotImplementedException();
+            var or = await _context.odersList.FindAsync(id);
+            if (or == null) throw new WebAPIException($"Cannot find a color: {id}");
+
+            _context.odersList.Remove(or);
+            return await _context.SaveChangesAsync(); ;
         }
 
         public async Task<List<OrderVm>> GetAll()

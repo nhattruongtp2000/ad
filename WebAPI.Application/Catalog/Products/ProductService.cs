@@ -30,8 +30,6 @@ namespace WebAPI.Application.Catalog.Products
             _storageService = storageService;
         }
 
-
-
         public async Task<string> AddImage(string productId, ProductImageCreateRequest request)
         {
             var productImage = new productPhotos()

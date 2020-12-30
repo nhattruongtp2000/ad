@@ -57,6 +57,15 @@ namespace WebAPI.BackendAPI.Controllers
             return Ok(get);
         }
 
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var affectedResult = await _orderService.Delete(id);
+            if (affectedResult == 0)
+                return BadRequest();
+            return Ok();
+        }
         ////Create
         //[HttpPost]
         //[Consumes("multipart/form-data")]

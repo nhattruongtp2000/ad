@@ -96,6 +96,7 @@ namespace WebAPI.Application.System.Users
 
         public async Task<ApiResult<UserVm>> GetById(string id)
         {
+    
             var user =  _context.users.FirstOrDefault(x=>x.Id==id);
             if (user == null)
             {

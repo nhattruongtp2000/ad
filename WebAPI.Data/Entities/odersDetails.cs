@@ -9,7 +9,7 @@ namespace WebAPI.Data.Entities
     {
         public string idOder { set; get; }
         public DateTime date { set; get; }
-        public string status { set; get; }
+        public int  status { set; get; }
         public int totalPrice { set; get; }
         public string idVoucher { get; set; }
 

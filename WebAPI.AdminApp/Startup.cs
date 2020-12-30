@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using WebAPI.ApiIntegration;
 using WebAPI.ViewModels.System.Users;
 
+
 namespace WebAPI.AdminApp
 {
     public class Startup
@@ -36,6 +37,8 @@ namespace WebAPI.AdminApp
                    options.LoginPath = "/Login/Index/";
                    options.AccessDeniedPath = "/User/Forbidden/";
                });
+
+
 
             services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
