@@ -50,10 +50,23 @@ namespace WebAPI.Application.Catalog.Products
         }
 
 
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+
+
         public async Task<string> Create(ProductCreateRequest request)
         {
             var product = new products()
-            {              
+            {
+                idProduct=request.idProduct,
+                productName=request.productName,
+                expiredSalingDate=DateTime.Now,
                 idSize = request.idSize,
                 idBrand = request.idBrand,
                 idColor = request.idColor,
@@ -73,10 +86,10 @@ namespace WebAPI.Application.Catalog.Products
                 {
                     new productPhotos()
                     {
+                        IdPhoto=RandomString(4),
                         uploadedTime = DateTime.Now,
                         link = await this.SaveFile(request.ThumbnailImage),
                         idProduct=request.idProduct
-               
                     }
                 };
             }
@@ -130,6 +143,7 @@ namespace WebAPI.Application.Catalog.Products
                 .Select(x => new ProductVm()
                 {
                     idProduct = x.p.idProduct,
+                    productName=x.p.productName,
                     idSize = x.p.idSize,
                     idBrand = x.p.idBrand,
                     idColor = x.p.idColor,
@@ -232,13 +246,18 @@ namespace WebAPI.Application.Catalog.Products
 
             if (product == null) throw new WebAPIException($"Cannot find a product with id: {request.idProduct}");
 
+            product.photoReview = request.photoReview;
+            product.productName = request.productName;
+            product.idCategory = request.idCategory;
+            product.price = request.price;
+            product.salePrice = request.salePrice;
+            product.detail = request.detail;
             product.idBrand = request.idBrand;
             product.idType = request.idType;
             product.idSize = request.idSize;
             product.idColor = request.idColor;
-            product.idCategory = request.idCategory;
-            product.price = request.price;
-            product.salePrice = request.salePrice;
+            
+
 
             //Save image
             if (request.ThumbnailImage != null)
@@ -295,6 +314,7 @@ namespace WebAPI.Application.Catalog.Products
                 .Select(x => new ProductVm()
                 {
                     idProduct = x.p.idProduct,
+                    productName=x.p.productName,
                     idSize = x.p.idSize,
                     idBrand = x.p.idBrand,
                     idColor = x.p.idColor,

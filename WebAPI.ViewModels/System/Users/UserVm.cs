@@ -21,7 +21,6 @@ namespace WebAPI.ViewModels.System.Users
         [Display(Name = "Ngày sinh")]
         public DateTime birthday { get; set; }
 
-        public IList<string> Roles { get; set; }
 
 
     }

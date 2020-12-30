@@ -85,7 +85,7 @@ namespace WebAPI.Application.Catalog.Sizes
                 {
                     IdSize = x.p.idSize,
                     Name = x.p.sizeName,
-                    LanguageId = request.LanguageId
+                    
                 }).ToListAsync();
 
             //4. Select and projection

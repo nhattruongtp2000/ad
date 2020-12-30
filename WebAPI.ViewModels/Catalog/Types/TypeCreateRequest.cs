@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WebAPI.ViewModels.Catalog.Colors
+namespace WebAPI.ViewModels.Catalog.Types
 {
-    public class ColorCreateRequest
+    public class TypeCreateRequest
     {
-        public string IdColor { get; set; }
+        public string IdType { get; set; }
 
         public string Name { get; set; }
     }

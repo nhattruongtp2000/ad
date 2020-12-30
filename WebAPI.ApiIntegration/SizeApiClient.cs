@@ -47,7 +47,7 @@ namespace WebAPI.ApiIntegration
 
             requestContent.Add(new StringContent(request.IdSize.ToString()), "IdSize");
             requestContent.Add(new StringContent(request.Name.ToString()), "Name");
-            requestContent.Add(new StringContent(languageId), "languageId");
+            
 
             var response = await client.PostAsync($"/api/sizes/", requestContent);
             return response.IsSuccessStatusCode;

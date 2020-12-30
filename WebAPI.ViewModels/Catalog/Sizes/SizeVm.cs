@@ -10,6 +10,5 @@ namespace WebAPI.ViewModels.Catalog.Sizes
 
         public string Name { get; set; }
 
-        public string LanguageId { get; set; }
     }
 }

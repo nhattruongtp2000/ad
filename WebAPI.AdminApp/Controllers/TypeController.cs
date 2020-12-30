@@ -8,17 +8,18 @@ using Microsoft.Extensions.Configuration;
 using WebAPI.ApiIntegration;
 using WebAPI.Utilities.Constants;
 using WebAPI.ViewModels.Catalog.Colors;
+using WebAPI.ViewModels.Catalog.Types;
 
 namespace WebAPI.AdminApp.Controllers
 {
-    public class ColorController : Controller
+    public class TypeController : Controller
     {
-        private readonly IColorApiClient _colorApiClient;
+        private readonly ITypeApiClient _typeApiClient;
         private readonly IConfiguration _configuration;
         private readonly IProductApiClient _productApiClient;
-        public ColorController(IColorApiClient colorApiClient, IConfiguration configuration, IProductApiClient productApiClient)
+        public TypeController(ITypeApiClient typeApiClient, IConfiguration configuration, IProductApiClient productApiClient)
         {
-            _colorApiClient = colorApiClient;
+            _typeApiClient = typeApiClient;
             _configuration = configuration;
             _productApiClient = productApiClient;
         }
@@ -28,14 +29,14 @@ namespace WebAPI.AdminApp.Controllers
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
             var sessions = HttpContext.Session.GetString("Token");
-            var request = new GetColorPagingRequest()
+            var request = new GetTypePagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-           
+
             };
-            var data = await _colorApiClient.GetColorsPagings(request);
+            var data = await _typeApiClient.GetTypesPagings(request);
             ViewBag.Keyword = keyword;
             if (TempData["result"] != null)
             {
@@ -54,19 +55,19 @@ namespace WebAPI.AdminApp.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Create([FromForm] ColorCreateRequest request)
+        public async Task<IActionResult> Create([FromForm] TypeCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return View(request);
 
-            var result = await _colorApiClient.CreateColor(request);
+            var result = await _typeApiClient.CreateType(request);
             if (result)
             {
-                TempData["result"] = "Thêm mới Color thành công";
+                TempData["result"] = "Thêm mới Type thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Thêm Color thất bại");
+            ModelState.AddModelError("", "Thêm Type thất bại");
             return View(request);
         }
 
@@ -74,19 +75,19 @@ namespace WebAPI.AdminApp.Controllers
         [HttpGet]
         public IActionResult Delete(string id)
         {
-            return View(new ColorDeleteRequest()
+            return View(new TypeDeleteRequest()
             {
                 Id = id
             });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(ColorDeleteRequest request)
+        public async Task<IActionResult> Delete(TypeDeleteRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _colorApiClient.DeleteColor(request.Id);
+            var result = await _typeApiClient.DeleteType(request.Id);
             if (result)
             {
                 TempData["result"] = "Xóa thành công";

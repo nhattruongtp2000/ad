@@ -9,7 +9,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebAPI.Data.EF;
 using WebAPI.Data.Entities;
+using WebAPI.Utilities.Constants;
 using WebAPI.Utilities.Exceptions;
 using WebAPI.ViewModels.Common;
 using WebAPI.ViewModels.System.Users;
@@ -18,13 +20,15 @@ namespace WebAPI.Application.System.Users
 {
     public class UserService : IUserService
     {
+        private readonly WebApiDbContext _context;
         private readonly UserManager<users> _userManager;
         private readonly SignInManager<users> _signInManager;
         private readonly RoleManager<role> _roleManager;
         private readonly IConfiguration _config;
 
-        public UserService(UserManager<users> userManager,SignInManager<users> signInManager, RoleManager<role> roleManager, IConfiguration config)
+        public UserService(WebApiDbContext context,UserManager<users> userManager,SignInManager<users> signInManager, RoleManager<role> roleManager, IConfiguration config)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
@@ -34,10 +38,10 @@ namespace WebAPI.Application.System.Users
 
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
+            var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
 
-            var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
             {
                 return new ApiErrorResult<string>("Đăng nhập không đúng");
@@ -48,7 +52,7 @@ namespace WebAPI.Application.System.Users
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.GivenName,user.firstName),
                 new Claim(ClaimTypes.Role, string.Join(";",roles)),
-                new Claim(ClaimTypes.Name, request.UserName)
+                
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -92,12 +96,11 @@ namespace WebAPI.Application.System.Users
 
         public async Task<ApiResult<UserVm>> GetById(string id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user =  _context.users.FirstOrDefault(x=>x.Id==id);
             if (user == null)
             {
                 return new ApiErrorResult<UserVm>("User không tồn tại");
             }
-            var roles = await _userManager.GetRolesAsync(user);
             var userVm = new UserVm()
 
             {
@@ -108,7 +111,6 @@ namespace WebAPI.Application.System.Users
                 Id = user.Id,
                 LastName = user.lastName,
                 UserName = user.UserName,
-                Roles = roles
             };
             return new ApiSuccessResult<UserVm>(userVm);
         }
@@ -119,7 +121,7 @@ namespace WebAPI.Application.System.Users
             {
                 return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = _context.users.FirstOrDefault(x => x.Id == id);
             user.birthday = request.birthday;
             user.Email = request.Email;
             user.firstName = request.firstName;
@@ -169,6 +171,13 @@ namespace WebAPI.Application.System.Users
             return new ApiSuccessResult<PagedResult<UserVm>>(pagedResult);
         }
 
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
         public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
@@ -188,7 +197,13 @@ namespace WebAPI.Application.System.Users
                 firstName = request.firstName,
                 lastName = request.lastName,
                 UserName = request.UserName,
-                PhoneNumber = request.PhoneNumber
+                PhoneNumber = request.PhoneNumber,
+                interestedIn = SystemConstants.ProductConstants.NA,
+                lastLogin = new DateTime(1,1,1),
+                note=SystemConstants.ProductConstants.NA,
+                idUser=RandomString(5),
+                Id=RandomString(5)
+
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
@@ -200,7 +215,7 @@ namespace WebAPI.Application.System.Users
 
         public async Task<ApiResult<bool>> Delete(string id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = _context.users.FirstOrDefault(x => x.Id == id);
             if (user == null)
             {
                 return new ApiErrorResult<bool>("User không tồn tại");

@@ -49,6 +49,16 @@ namespace WebAPI.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
         }
 
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+
+
         public async Task<bool> CreateProduct(ProductCreateRequest request)
             {
             var sessions = _httpContextAccessor
@@ -64,6 +74,8 @@ namespace WebAPI.ApiIntegration
 
             var requestContent = new MultipartFormDataContent();
 
+            string a = RandomString(3);
+
             if (request.ThumbnailImage != null)
             {
                 byte[] data;
@@ -72,22 +84,20 @@ namespace WebAPI.ApiIntegration
                     data = br.ReadBytes((int)request.ThumbnailImage.OpenReadStream().Length);
                 }
                 ByteArrayContent bytes = new ByteArrayContent(data);
-                requestContent.Add(bytes, "thumbnailImage", request.ThumbnailImage.FileName);
+                requestContent.Add(bytes, "ThumbnailImage", request.ThumbnailImage.FileName);
             }
+            requestContent.Add(new StringContent(a), "idProduct");
+            requestContent.Add(new StringContent(request.productName.ToString()), "productName");
             requestContent.Add(new StringContent(request.price.ToString()), "price");
             requestContent.Add(new StringContent(request.salePrice.ToString()), "salePrice");
-            requestContent.Add(new StringContent(request.productName.ToString()), "ProductName");
             requestContent.Add(new StringContent(request.detail.ToString()), "detail");
             requestContent.Add(new StringContent(request.idBrand.ToString()), "idBrand");
             requestContent.Add(new StringContent(request.idSize.ToString()), "idSize");
             requestContent.Add(new StringContent(request.idColor.ToString()), "idColor");
             requestContent.Add(new StringContent(request.idType.ToString()), "idType");
             requestContent.Add(new StringContent(request.idCategory.ToString()), "idCategory");
-
-
             var response = await client.PostAsync($"/api/products/", requestContent);
             return response.IsSuccessStatusCode;
-
         }
 
         public async Task<bool> DeleteProduct(string id)
@@ -147,19 +157,21 @@ namespace WebAPI.ApiIntegration
                     data = br.ReadBytes((int)request.ThumbnailImage.OpenReadStream().Length);
                 }
                 ByteArrayContent bytes = new ByteArrayContent(data);
-                requestContent.Add(bytes, "thumbnailImage", request.ThumbnailImage.FileName);
+                requestContent.Add(bytes, "ThumbnailImage", request.ThumbnailImage.FileName);
             }
 
             //requestContent.Add(new StringContent(request.Id.ToString()), "id");
-
+            requestContent.Add(new StringContent("123"), "photoReview");
+            requestContent.Add(new StringContent(request.idCategory.ToString()), "idCategory");
             requestContent.Add(new StringContent(request.price.ToString()), "price");
             requestContent.Add(new StringContent(request.salePrice.ToString()), "salePrice");
-            requestContent.Add(new StringContent(request.productName.ToString()), "ProductName");
+            requestContent.Add(new StringContent(request.productName.ToString()), "productName");
             requestContent.Add(new StringContent(request.detail.ToString()), "detail");
             requestContent.Add(new StringContent(request.idBrand.ToString()), "idBrand");
             requestContent.Add(new StringContent(request.idSize.ToString()), "idSize");
             requestContent.Add(new StringContent(request.idColor.ToString()), "idColor");
             requestContent.Add(new StringContent(request.idType.ToString()), "idType");
+
 
 
             var response = await client.PutAsync($"/api/products/" + request.idProduct, requestContent);

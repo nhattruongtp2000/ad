@@ -26,6 +26,7 @@ namespace WebAPI.Utilities.Constants
         {
             public const string NA = "N/A";
             public const int NAint = 0;
+            public DateTime date = new DateTime(2, 1, 1);
         }
     }
 

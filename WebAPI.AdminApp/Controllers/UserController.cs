@@ -201,7 +201,6 @@ namespace WebAPI.AdminApp.Controllers
                 {
                     Id = role.Id.ToString(),
                     Name = role.Name,
-                    Selected = userObj.ResultObj.Roles.Contains(role.Name)
                 });
             }
             return roleAssignRequest;

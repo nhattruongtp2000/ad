@@ -145,7 +145,8 @@ namespace WebAPI.AdminApp.Controllers
                 idBrand=product.idBrand,
                 idColor=product.idColor,
                 idSize=product.idSize,
-                idType=product.idSize
+                idType=product.idType,
+                idCategory=product.idCategory
             };
             return View(editVm);
         }

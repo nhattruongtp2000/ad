@@ -1,8 +1,8 @@
 ﻿@using WebAPI.ViewModels.Common;
-@model PagedResult<WebAPI.ViewModels.Catalog.Sizes.SizeVm>
+@model PagedResult<WebAPI.ViewModels.Catalog.Types.TypeVm>
 
 @{
-    ViewData["Title"] = "Size";
+    ViewData["Title"] = "type";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts{
@@ -22,7 +22,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-6 col-xs-12">
-                    <a class="btn btn-success" asp-action="Create" asp-controller="Size">Tạo mới</a>
+                    <a class="btn btn-success" asp-action="Create" asp-controller="type">Tạo mới</a>
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <form asp-action="Index" method="get">
@@ -32,7 +32,7 @@
                             </div>
                             <div class="cold-md-3">
                                 <button type="submit" class="btn btn-primary">Tìm</button>
-                                <button type="button" onclick="window.location.href='/Size/Index'" class="btn btn-dark">Reset</button>
+                                <button type="button" onclick="window.location.href='/type/Index'" class="btn btn-dark">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -54,10 +54,10 @@
                     <thead>
                         <tr>
                             <th>
-                                Mã Size
+                                Mã type
                             </th>
                             <th>
-                                Tên Size
+                                Tên type
                             </th>
                             <th></th>
                         </tr>
@@ -67,14 +67,14 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.IdSize)
+                                    @Html.DisplayFor(modelItem => item.IdType)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-                             
+
                                 <td>
-                                    @Html.ActionLink("Xóa", "Delete", new { id = item.IdSize }) 
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.IdType }) 
                                 </td>
                             </tr>
                         }

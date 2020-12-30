@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WebAPI.ViewModels.Catalog.Colors
+namespace WebAPI.ViewModels.Catalog.Types
 {
-    public class ColorDeleteRequest
+    public class TypeDeleteRequest
     {
         public string Id { get; set; }
     }

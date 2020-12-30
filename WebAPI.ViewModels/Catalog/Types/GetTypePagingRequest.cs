@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using WebAPI.ViewModels.Common;
 
-namespace WebAPI.ViewModels.Catalog.Colors
+namespace WebAPI.ViewModels.Catalog.Types
 {
-    public class GetColorPagingRequest : PagingRequestBase
+    public class GetTypePagingRequest : PagingRequestBase
     {
         public string Keyword { get; set; }
 
-        public int ColorId { get; set; }
-
+        public int TypeId { get; set; }
     }
 }
