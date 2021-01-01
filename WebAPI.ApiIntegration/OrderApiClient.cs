@@ -58,9 +58,14 @@ namespace WebAPI.ApiIntegration
             return await Delete($"/api/orders/" + id);
         }
 
-        public async Task<List<OrderVm>> GetAll()
+        public async Task<PagedResult<OrderDetailsVm>> Details( GetOrderDetailsPagingRequest request)
         {
-            return await GetListAsync<OrderVm>("/api/orders");
+            var data = await GetAsync<PagedResult<OrderDetailsVm>>(
+               $"/api/orders/paging?pageIndex={request.PageIndex}" +
+               $"&pageSize={request.PageSize}" +
+               $"&keyword={request.Keyword}&categoryId={request.OrderId}&id={request.Id}");
+
+            return data;
         }
 
         public async Task<List<OrderVm>> GetAllByUser(string User)
@@ -68,9 +73,9 @@ namespace WebAPI.ApiIntegration
             return await GetListAsync<OrderVm>($"/api/orders/{User}");
         }
 
-        public async Task<OrderVm> GetById(string id)
+        public async Task<List<OrderDetailsVm>> GetById(string id)
         {
-            var data = await GetAsync<OrderVm>($"/api/orders/{id}");
+            var data = await GetListAsync<OrderDetailsVm>($"/api/orders/{id}");
 
             return data;
         }
@@ -79,7 +84,7 @@ namespace WebAPI.ApiIntegration
         {
             var data = await GetAsync<PagedResult<OrderVm>>(
                 $"/api/orders/paging?pageIndex={request.PageIndex}" +
-                $"&pageOrder={request.PageSize}" +
+                $"&pageSize={request.PageSize}" +
                 $"&keyword={request.Keyword}&categoryId={request.OrderId}");
 
             return data;

@@ -8,8 +8,9 @@ namespace WebAPI.ViewModels.Orders
     public class OrderVm
     {
         public string idOrderList { get; set; }
-        public string idOrder { get; set; }
         public string idUser { get; set; }
-        public string idProduct { get; set; }
+        public int status { set; get; }
+        public DateTime date { get; set; }
+        public string idVoucher { get; set; }
     }
 }

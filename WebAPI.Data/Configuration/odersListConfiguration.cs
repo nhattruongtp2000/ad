@@ -14,13 +14,12 @@ namespace WebAPI.Data.Configuration
             builder.ToTable("odersList");
 
             builder.HasKey(x => x.idOrderList);
-            builder.Property(x => x.idOrder).IsRequired().HasColumnType("VARCHAR").HasMaxLength(200);
-            builder.Property(x => x.idUser).IsRequired().HasColumnType("VARCHAR").HasMaxLength(200); 
-            builder.Property(x => x.idProduct).IsRequired().HasColumnType("VARCHAR").HasMaxLength(200);
+
+            builder.Property(x => x.idVoucher).IsRequired().HasColumnType("VARCHAR").HasMaxLength(200);
+            builder.Property(x => x.idUser).IsRequired().HasColumnType("VARCHAR").HasMaxLength(200);
+            builder.Property(x => x.date).IsRequired();
 
             builder.HasOne(x => x.users).WithMany(x => x.odersLists).HasForeignKey(x => x.idUser);
-            builder.HasOne(x => x.Products).WithMany(x => x.odersLists).HasForeignKey(x => x.idProduct);
-            builder.HasOne(x => x.odersDetails).WithMany(x => x.odersLists).HasForeignKey(x => x.idOrder);
         }
     }
 }

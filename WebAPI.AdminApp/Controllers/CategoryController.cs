@@ -25,15 +25,13 @@ namespace WebAPI.AdminApp.Controllers
 
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
-            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-
             var sessions = HttpContext.Session.GetString("Token");
             var request = new GetCategoryPagingRequest()
             {               
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageId=languageId
+          
             };
             var data = await _categoryApiClient.GetCategoriesPagings(request);
             ViewBag.Keyword = keyword;

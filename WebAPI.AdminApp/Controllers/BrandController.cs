@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using WebAPI.ApiIntegration;
 using WebAPI.Utilities.Constants;
@@ -56,6 +57,14 @@ namespace WebAPI.AdminApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View(request);
+
+            var brands = await _brandApiClient.GetAll();
+
+            ViewBag.Brand = brands.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.IdBrand.ToString(),
+            });
 
             var result = await _brandApiClient.CreateBrand(request);
             if (result)

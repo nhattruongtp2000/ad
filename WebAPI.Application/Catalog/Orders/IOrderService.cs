@@ -13,7 +13,7 @@ namespace WebAPI.Application.Catalog.Orders
 {
     public interface IOrderService
     {
-        Task<List<OrderVm>> GetAll();
+        Task<PagedResult<OrderDetailsVm>> GetAllDetails(GetOrderDetailsPagingRequest request);
 
         Task<List<OrderVm>> GetAllByUser(string User);
 
@@ -21,7 +21,7 @@ namespace WebAPI.Application.Catalog.Orders
 
         //Task<int> Create(CheckoutRequest request);
 
-        Task<OrderVm> GetById(string id);
+        Task<List<OrderDetailsVm>> GetById(string id);
 
         Task<int> Delete(string id);
 

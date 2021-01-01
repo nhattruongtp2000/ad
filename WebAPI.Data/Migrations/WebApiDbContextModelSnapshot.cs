@@ -129,21 +129,25 @@ namespace WebAPI.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("VARCHAR(200)");
 
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("idOrderList")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("idVoucher")
+                    b.Property<string>("idProduct")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("VARCHAR(200)");
 
-                    b.Property<int>("status")
+                    b.Property<int>("quality")
                         .HasColumnType("int");
 
                     b.Property<int>("totalPrice")
                         .HasColumnType("int");
 
                     b.HasKey("idOder");
+
+                    b.HasIndex("idOrderList");
+
+                    b.HasIndex("idProduct");
 
                     b.ToTable("odersDetails");
                 });
@@ -153,29 +157,23 @@ namespace WebAPI.Data.Migrations
                     b.Property<string>("idOrderList")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("idOrder")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("VARCHAR(200)");
-
-                    b.Property<string>("idProduct")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("VARCHAR(200)");
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("idUser")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("VARCHAR(200)");
 
-                    b.Property<int>("quality")
+                    b.Property<string>("idVoucher")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("VARCHAR(200)");
+
+                    b.Property<int>("status")
                         .HasColumnType("int");
 
                     b.HasKey("idOrderList");
-
-                    b.HasIndex("idOrder");
-
-                    b.HasIndex("idProduct");
 
                     b.HasIndex("idUser");
 
@@ -561,14 +559,14 @@ namespace WebAPI.Data.Migrations
                         {
                             idUser = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e7bea5ff-9548-437c-8bf8-8b3bfd5ac028",
+                            ConcurrencyStamp = "af463510-7266-4d0f-94cd-eb363135d8e3",
                             Email = "nhattruongtp2000@gmail.com",
                             EmailConfirmed = true,
                             Id = "69BD714F-9576-45BA-B5B7-F00649BE00DE",
                             LockoutEnabled = false,
                             NormalizedEmail = "nhattruongtp2000@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYBCCRr9F7uhjlfXmSuzVKyd8Ot5Ikt9Xur6yyreNPYiOvCZQxLcqxYvFMsOn/pIA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPU6AStYblm936kq5uekgc1NsqsSSVqJ0o9Nd0toE0EU9WCaFP4iR6+YVyFCCHB90Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -608,29 +606,30 @@ namespace WebAPI.Data.Migrations
                     b.ToTable("vouchers");
                 });
 
-            modelBuilder.Entity("WebAPI.Data.Entities.odersList", b =>
+            modelBuilder.Entity("WebAPI.Data.Entities.odersDetails", b =>
                 {
-                    b.HasOne("WebAPI.Data.Entities.odersDetails", "odersDetails")
-                        .WithMany("odersLists")
-                        .HasForeignKey("idOrder")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("WebAPI.Data.Entities.odersList", "odersLists")
+                        .WithMany("odersDetails")
+                        .HasForeignKey("idOrderList");
 
                     b.HasOne("WebAPI.Data.Entities.products", "Products")
-                        .WithMany("odersLists")
+                        .WithMany("odersDetails")
                         .HasForeignKey("idProduct")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("odersLists");
+
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("WebAPI.Data.Entities.odersList", b =>
+                {
                     b.HasOne("WebAPI.Data.Entities.users", "users")
                         .WithMany("odersLists")
                         .HasForeignKey("idUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("odersDetails");
-
-                    b.Navigation("Products");
 
                     b.Navigation("users");
                 });
@@ -708,9 +707,9 @@ namespace WebAPI.Data.Migrations
                     b.Navigation("users");
                 });
 
-            modelBuilder.Entity("WebAPI.Data.Entities.odersDetails", b =>
+            modelBuilder.Entity("WebAPI.Data.Entities.odersList", b =>
                 {
-                    b.Navigation("odersLists");
+                    b.Navigation("odersDetails");
                 });
 
             modelBuilder.Entity("WebAPI.Data.Entities.productBrand", b =>
@@ -740,7 +739,7 @@ namespace WebAPI.Data.Migrations
 
             modelBuilder.Entity("WebAPI.Data.Entities.products", b =>
                 {
-                    b.Navigation("odersLists");
+                    b.Navigation("odersDetails");
 
                     b.Navigation("productPhotos");
 

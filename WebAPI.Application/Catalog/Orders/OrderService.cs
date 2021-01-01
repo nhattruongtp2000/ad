@@ -77,18 +77,40 @@ namespace WebAPI.Application.Catalog.Orders
             return await _context.SaveChangesAsync(); ;
         }
 
-        public async Task<List<OrderVm>> GetAll()
+        public async Task<PagedResult<OrderDetailsVm>> GetAllDetails(GetOrderDetailsPagingRequest request)
         {
-            
-            var query = from p in _context.odersList                     
-                        select new { p};
-            return await query.Select(x => new OrderVm()
+
+            var query = from p in _context.odersDetails
+
+                        select new { p };
+
+            //2. filter
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(x => x.p.idOder.Contains(request.Keyword));
+            //3. Paging
+            int totalRow = await query.CountAsync();
+
+
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new OrderDetailsVm()
+                {
+                    idOrderList = x.p.idOrderList,
+                    idOder = x.p.idOder,
+                    idProduct = x.p.idProduct,
+                    quatity = x.p.quality,
+                    totalPrice = x.p.totalPrice
+
+                }).ToListAsync();
+
+            var pagedResult = new PagedResult<OrderDetailsVm>()
             {
-                idOrder=x.p.idOrder,
-                idOrderList=x.p.idOrderList,
-                idProduct=x.p.idProduct,
-                idUser=x.p.idUser
-            }).ToListAsync();
+                TotalRecords = totalRow,
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
+                Items = data
+            };
+            return pagedResult;
         }
 
         public async Task<List<OrderVm>> GetAllByUser(string User)
@@ -99,25 +121,27 @@ namespace WebAPI.Application.Catalog.Orders
                         select new { p, pt };
             return await query.Select(x => new OrderVm()
             {
-                idOrder = x.p.idOrder,
                 idOrderList = x.p.idOrderList,
-                idProduct = x.p.idProduct,
+                idVoucher = x.p.idVoucher,
+                date = x.p.date,
+                status = x.p.status,
                 idUser = x.p.idUser
             }).ToListAsync();
         }
 
-        public async Task<OrderVm> GetById(string id)
+        public async Task<List<OrderDetailsVm>> GetById(string id)
         {
-            var query = from p in _context.odersList                       
+            var query = from p in _context.odersDetails                       
                         where  p.idOrderList==id
                         select new { p};
-            return await query.Select(x => new OrderVm()
+            return await query.Select(x => new OrderDetailsVm()
             {
-                idOrder = x.p.idOrder,
                 idOrderList = x.p.idOrderList,
+                idOder = x.p.idOder,
                 idProduct = x.p.idProduct,
-                idUser = x.p.idUser
-            }).FirstOrDefaultAsync();
+                quatity = x.p.quality,
+                totalPrice = x.p.totalPrice
+            }).ToListAsync();
         }
 
         
@@ -125,14 +149,11 @@ namespace WebAPI.Application.Catalog.Orders
         public async Task<PagedResult<OrderVm>> GetOrdersPagings(GetOrderPagingRequest request)
         {
             //1. Select join
-            var query = from p in _context.odersList                       
-                where p.idUser==request.UserName                   
+            var query = from p in _context.odersList                                       
                         select new { p };
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.p.idUser.Contains(request.Keyword));
-
-
             //3. Paging
             int totalRow = await query.CountAsync();
 
@@ -140,10 +161,11 @@ namespace WebAPI.Application.Catalog.Orders
                 .Take(request.PageSize)
                 .Select(x => new OrderVm()
                 {
-                    idOrder = x.p.idOrder,
                     idOrderList = x.p.idOrderList,
-                    idProduct = x.p.idProduct,
-                    idUser = x.p.idUser
+                    idVoucher = x.p.idVoucher,
+                    idUser = x.p.idUser,
+                    date = x.p.date,
+                    status = x.p.status
 
                 }).ToListAsync();
 

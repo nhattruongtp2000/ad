@@ -8,11 +8,13 @@ namespace WebAPI.Data.Entities
     public class odersDetails
     {
         public string idOder { set; get; }
-        public DateTime date { set; get; }
-        public int  status { set; get; }
+        public string idOrderList { get; set; }
         public int totalPrice { set; get; }
-        public string idVoucher { get; set; }
+        public string idProduct { get; set; }
+        public int quality { get; set; }
 
-        public List<odersList> odersLists { get; set; }
+        public odersList odersLists { get; set; }
+
+        public products Products { get; set; }
     }
 }

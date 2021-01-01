@@ -20,14 +20,6 @@ namespace WebAPI.BackendAPI.Controllers
             _orderService = orderService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var products = await _orderService.GetAll();
-            return Ok(products);
-            
-        }
-
 
         [HttpGet("paging")]
         public async Task<IActionResult> GetOrdersPaging([FromQuery] GetOrderPagingRequest request)
@@ -48,7 +40,7 @@ namespace WebAPI.BackendAPI.Controllers
         }
 
         //http://localhost:port/category/1
-        [HttpGet("{id}/{languageId}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById( string id)
         {
             var get = await _orderService.GetById(id);

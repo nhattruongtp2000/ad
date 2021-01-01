@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebAPI.Data.Migrations
 {
-    public partial class aa : Migration
+    public partial class a : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,21 +18,6 @@ namespace WebAPI.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_admin ", x => x.idAdmin);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "odersDetails",
-                columns: table => new
-                {
-                    idOder = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
-                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    status = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
-                    totalPrice = table.Column<int>(type: "int", nullable: false),
-                    idVoucher = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_odersDetails", x => x.idOder);
                 });
 
             migrationBuilder.CreateTable(
@@ -284,26 +269,14 @@ namespace WebAPI.Data.Migrations
                 columns: table => new
                 {
                     idOrderList = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    idOrder = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
                     idUser = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
-                    idProduct = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
-                    quality = table.Column<int>(type: "int", nullable: false)
+                    status = table.Column<int>(type: "int", nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    idVoucher = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_odersList", x => x.idOrderList);
-                    table.ForeignKey(
-                        name: "FK_odersList_odersDetails_idOrder",
-                        column: x => x.idOrder,
-                        principalTable: "odersDetails",
-                        principalColumn: "idOder",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_odersList_products_idProduct",
-                        column: x => x.idProduct,
-                        principalTable: "products",
-                        principalColumn: "idProduct",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_odersList_users_idUser",
                         column: x => x.idUser,
@@ -360,6 +333,33 @@ namespace WebAPI.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "odersDetails",
+                columns: table => new
+                {
+                    idOder = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
+                    idOrderList = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    totalPrice = table.Column<int>(type: "int", nullable: false),
+                    idProduct = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: false),
+                    quality = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_odersDetails", x => x.idOder);
+                    table.ForeignKey(
+                        name: "FK_odersDetails_odersList_idOrderList",
+                        column: x => x.idOrderList,
+                        principalTable: "odersList",
+                        principalColumn: "idOrderList",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_odersDetails_products_idProduct",
+                        column: x => x.idProduct,
+                        principalTable: "products",
+                        principalColumn: "idProduct",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "productSize",
                 columns: new[] { "idSize", "sizeName" },
@@ -384,16 +384,16 @@ namespace WebAPI.Data.Migrations
             migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "idUser", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "Id", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "address", "avatar", "birthday", "firstName", "interestedIn", "lastLogin", "lastName", "note", "province" },
-                values: new object[] { "2", 0, "7bee615b-6a13-4506-a3d5-baa793828a83", "nhattruongtp2000@gmail.com", true, "69BD714F-9576-45BA-B5B7-F00649BE00DE", false, null, "nhattruongtp2000@gmail.com", "admin", "AQAAAAEAACcQAAAAEPqPfNRd/sX8O7lQOKQETaZb8JpEvRBPO8qUcDillM/KpA71mSDQV93b3MpkgYh3KA==", null, false, "", false, "admin", "asd", "asd", new DateTime(2020, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nguyen", "asd", new DateTime(2020, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Truong", "asd", "asd" });
+                values: new object[] { "2", 0, "af463510-7266-4d0f-94cd-eb363135d8e3", "nhattruongtp2000@gmail.com", true, "69BD714F-9576-45BA-B5B7-F00649BE00DE", false, null, "nhattruongtp2000@gmail.com", "admin", "AQAAAAEAACcQAAAAEPU6AStYblm936kq5uekgc1NsqsSSVqJ0o9Nd0toE0EU9WCaFP4iR6+YVyFCCHB90Q==", null, false, "", false, "admin", "asd", "asd", new DateTime(2020, 10, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nguyen", "asd", new DateTime(2020, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Truong", "asd", "asd" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_odersList_idOrder",
-                table: "odersList",
-                column: "idOrder");
+                name: "IX_odersDetails_idOrderList",
+                table: "odersDetails",
+                column: "idOrderList");
 
             migrationBuilder.CreateIndex(
-                name: "IX_odersList_idProduct",
-                table: "odersList",
+                name: "IX_odersDetails_idProduct",
+                table: "odersDetails",
                 column: "idProduct");
 
             migrationBuilder.CreateIndex(
@@ -448,7 +448,7 @@ namespace WebAPI.Data.Migrations
                 name: "admin ");
 
             migrationBuilder.DropTable(
-                name: "odersList");
+                name: "odersDetails");
 
             migrationBuilder.DropTable(
                 name: "productPhotos");
@@ -478,7 +478,7 @@ namespace WebAPI.Data.Migrations
                 name: "vouchers");
 
             migrationBuilder.DropTable(
-                name: "odersDetails");
+                name: "odersList");
 
             migrationBuilder.DropTable(
                 name: "products");

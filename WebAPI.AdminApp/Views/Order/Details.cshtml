@@ -1,5 +1,9 @@
-﻿@model WebAPI.ViewModels.Orders.OrderVm
-
+﻿@model IEnumerable<WebAPI.ViewModels.Orders.OrderDetailsVm>
+@{ var Sum = 0;}
+@foreach (var item in Model)
+{
+    Sum = Model.Sum(x => x.quatity * x.totalPrice);
+}
 @{
     ViewData["Title"] = "Chi tiết ";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,36 +22,74 @@
         </div>
 
         <div class="card-body">
-            <div class="col-md-12">
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.idOrderList)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.idOrderList)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.idOrder)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.idOrder)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.idProduct)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.idProduct)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.idUser)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.idUser)
-                    </dd>
-                   
-                </dl>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Mã Order List
+                            </th>
+                            <th>
+                                Mã Order
+                            </th>
+                            <th>
+                                Ma San pham
+                            </th>
+                            <th>
+                                So luong san pham
+                            </th>
+                            <th>
+                                Gia
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.idOrderList
+                                </td>
+                                <td>
+                                    @item.idOder
+                                </td>
+                                <td>
+                                    @item.idProduct
+                                </td>
+                                <td>
+                                    @item.quatity
+                                </td>
+                                <td>
+                                    @item.totalPrice
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
+            <div class="table-responsive ">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr >                   
+                            <th class="float-right" style="color:red">
+                                Tổng cộng
+                            </th>                            
+
+                        </tr>
+                    </thead>
+                    <tbody>                      
+                            <tr >
+                                <td  class="float-right" style="color:red">
+                                    @Sum
+                                </td>
+                            </tr>
+                        
+                    </tbody>
+
+                </table>
+            </div>
     </div>
 </div>
 <div>

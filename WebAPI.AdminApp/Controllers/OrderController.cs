@@ -49,7 +49,7 @@ namespace WebAPI.AdminApp.Controllers
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
-            var result = await _orderApiClient.GetById( id);
+            var result = await _orderApiClient.GetById(id);
             return View(result);
         }
 

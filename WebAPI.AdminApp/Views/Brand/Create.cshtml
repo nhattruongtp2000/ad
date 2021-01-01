@@ -23,6 +23,9 @@
                     <div class="form-group">
                         <label asp-for="IdBrand" class="control-label"></label>
                         <input asp-for="IdBrand" class="form-control" />
+                        <select name="IdBrand" onchange="this.form.submit()" asp-items="@ViewBag.Brand" class="form-control">
+                            <option>--Chọn danh mục--</option>
+                        </select>
                         <span asp-validation-for="IdBrand" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -32,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Details" class="control-label"></label>
-                        <input asp-for="Details" class="form-control" />
+                        <input asp-for="Details" class="form-control"  />    
                         <span asp-validation-for="Details" class="text-danger"></span>
                     </div>
                     <div class="form-group">

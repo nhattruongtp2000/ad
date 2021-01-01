@@ -57,18 +57,17 @@
                                 Mã Order
                             </th>
                             <th>
-                                Chi tiết hóa đơn
+                                Ma User
                             </th>
                             <th>
-                                Sản phẩm
+                                Trạng thái
                             </th>
                             <th>
-                                Tài khoản người dùng
+                                Voucher
                             </th>
-
-
-
-
+                            <th>
+                                Ngày xuất
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -80,15 +79,21 @@
                                 @Html.DisplayFor(modelItem => item.idOrderList)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.idOrder)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.idProduct)
-                            </td>
-                            <td>
                                 @Html.DisplayFor(modelItem => item.idUser)
                             </td>
-                            
+                            <td>
+                                @Html.DisplayFor(modelItem => item.status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.idVoucher)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.date)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Chi tiết đơn hàng", "Details", new { id = item.idOrderList }) |
+                            </td>
+
                         </tr>
                         }
                     </tbody>

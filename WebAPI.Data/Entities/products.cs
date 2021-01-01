@@ -26,7 +26,7 @@ namespace WebAPI.Data.Entities
         public DateTime expiredSalingDate { get; set; }
         public DateTime dateAdded  { get; set; }
 
-        public List<odersList> odersLists { get; set; }
+        public List<odersDetails> odersDetails { get; set; }
 
         public List<productPhotos> productPhotos { get; set; }
 
