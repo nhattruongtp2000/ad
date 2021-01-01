@@ -68,6 +68,9 @@
                             <th>
                                 Ngày xuất
                             </th>
+                            <th>
+                                Tổng cộng
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -89,6 +92,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.totalPrice)
                             </td>
                             <td>
                                 @Html.ActionLink("Chi tiết đơn hàng", "Details", new { id = item.idOrderList }) |

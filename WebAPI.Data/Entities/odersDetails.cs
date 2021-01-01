@@ -9,7 +9,6 @@ namespace WebAPI.Data.Entities
     {
         public string idOder { set; get; }
         public string idOrderList { get; set; }
-        public int totalPrice { set; get; }
         public string idProduct { get; set; }
         public int quality { get; set; }
 

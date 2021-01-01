@@ -17,6 +17,7 @@ namespace WebAPI.Data.Configuration
 
             builder.Property(x => x.idVoucher).IsRequired().HasColumnType("VARCHAR").HasMaxLength(200);
             builder.Property(x => x.idUser).IsRequired().HasColumnType("VARCHAR").HasMaxLength(200);
+            builder.Property(x => x.totalPrice).IsRequired();
             builder.Property(x => x.date).IsRequired();
 
             builder.HasOne(x => x.users).WithMany(x => x.odersLists).HasForeignKey(x => x.idUser);

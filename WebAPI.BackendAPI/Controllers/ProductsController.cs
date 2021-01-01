@@ -88,8 +88,9 @@ namespace WebAPI.BackendAPI.Controllers
     
 
         //Images
-        [HttpPost("{productId}/images")]
-        public async Task<IActionResult> CreateImage(string productId, [FromForm] ProductImageCreateRequest request)
+        [HttpPost("{productId}/2")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AddImage(string productId, [FromForm] ProductImageCreateRequest request)
         {
             if (!ModelState.IsValid)
             {

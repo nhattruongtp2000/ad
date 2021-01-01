@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using WebAPI.ApiIntegration;
 using WebAPI.Utilities.Constants;
+using WebAPI.ViewModels.Catalog.ProductImages;
 using WebAPI.ViewModels.Catalog.Products;
 using WebAPI.ViewModels.Common;
 
@@ -72,6 +73,30 @@ namespace WebAPI.AdminApp.Controllers
                 return View(request);
 
             var result = await _productApiClient.CreateProduct(request);
+            if (result)
+            {
+                TempData["result"] = "Thêm mới sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Thêm sản phẩm thất bại");
+            return View(request);
+        }
+
+        [HttpGet]
+        public IActionResult AddImage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AddImage(string id,[FromForm] ProductImageCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View(request);
+
+            var result = await _productApiClient.AddImage(id,request);
             if (result)
             {
                 TempData["result"] = "Thêm mới sản phẩm thành công";

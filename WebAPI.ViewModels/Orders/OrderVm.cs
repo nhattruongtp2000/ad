@@ -12,5 +12,7 @@ namespace WebAPI.ViewModels.Orders
         public int status { set; get; }
         public DateTime date { get; set; }
         public string idVoucher { get; set; }
+        public int totalPrice { set; get; }
+
     }
 }

@@ -34,13 +34,15 @@ namespace WebAPI.Application.Catalog.Products
         {
             var productImage = new productPhotos()
             {
+                IdPhoto=request.idImage,
                 idProduct=request.idProduct,
-                uploadedTime=DateTime.Now,               
+                uploadedTime=DateTime.Now,       
+                
             };
 
             if (request.ImageFile != null)
             {
-                productImage.link = await this.SaveFile(request.ImageFile);
+                productImage.link = new string("https://localhost:5001" + await this.SaveFile(request.ImageFile));
             }
             _context.productPhotos.Add(productImage);
             await _context.SaveChangesAsync();
@@ -74,7 +76,7 @@ namespace WebAPI.Application.Catalog.Products
                 salePrice = request.salePrice,
                 detail=request.detail,
                 dateAdded=DateTime.Now,
-                photoReview="a"
+                photoReview= new string("https://localhost:5001"+ await this.SaveFile(request.ThumbnailImage))
             };
 
             //Save image
@@ -86,7 +88,7 @@ namespace WebAPI.Application.Catalog.Products
                     {
                         IdPhoto=RandomString(4),
                         uploadedTime = DateTime.Now,
-                        link = await this.SaveFile(request.ThumbnailImage),
+                        link = new string("https://localhost:5001"+ await this.SaveFile(request.ThumbnailImage)),
                         idProduct=request.idProduct
                     }
                 };
@@ -121,9 +123,8 @@ namespace WebAPI.Application.Catalog.Products
             var query = from p in _context.products
                         join pic in _context.productCategories on p.idCategory equals pic.idCategory into ppic
                         from pic in ppic.DefaultIfEmpty()
-                        join pi in _context.productPhotos on p.idProduct equals pi.idProduct into ppi
-                        from pi in ppi.DefaultIfEmpty()
-                        select new { p,  pic,pi};
+
+                        select new { p,  pic};
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.p.productName.Contains(request.Keyword));
@@ -151,8 +152,7 @@ namespace WebAPI.Application.Catalog.Products
                     salePrice = x.p.salePrice,
                     detail = x.p.detail,
                     dateAdded = DateTime.Now,
-                    photoReview = "a",
-                    ThumbnailImage = x.pi.link
+                    photoReview = x.p.photoReview.Substring(22)
                 }).ToListAsync();
 
             //4. Select and projection

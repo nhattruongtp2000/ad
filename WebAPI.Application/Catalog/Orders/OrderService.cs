@@ -99,7 +99,7 @@ namespace WebAPI.Application.Catalog.Orders
                     idOder = x.p.idOder,
                     idProduct = x.p.idProduct,
                     quatity = x.p.quality,
-                    totalPrice = x.p.totalPrice
+
 
                 }).ToListAsync();
 
@@ -125,7 +125,8 @@ namespace WebAPI.Application.Catalog.Orders
                 idVoucher = x.p.idVoucher,
                 date = x.p.date,
                 status = x.p.status,
-                idUser = x.p.idUser
+                idUser = x.p.idUser,
+                totalPrice=x.p.totalPrice
             }).ToListAsync();
         }
 
@@ -140,7 +141,6 @@ namespace WebAPI.Application.Catalog.Orders
                 idOder = x.p.idOder,
                 idProduct = x.p.idProduct,
                 quatity = x.p.quality,
-                totalPrice = x.p.totalPrice
             }).ToListAsync();
         }
 
@@ -165,7 +165,8 @@ namespace WebAPI.Application.Catalog.Orders
                     idVoucher = x.p.idVoucher,
                     idUser = x.p.idUser,
                     date = x.p.date,
-                    status = x.p.status
+                    status = x.p.status,
+                    totalPrice=x.p.totalPrice
 
                 }).ToListAsync();
 

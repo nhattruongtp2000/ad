@@ -120,8 +120,8 @@
                                     @Html.DisplayFor(modelItem => item.idColor)
                                 </td>
                                 <td>
-                                    <a href="@(Configuration["BaseAddress"] + item.ThumbnailImage)" title="@item.productName">
-                                        <img src="@(Configuration["BaseAddress"] + item.ThumbnailImage)" style="width:40%" alt="@item.productName" />
+                                    <a href="@(Configuration["BaseAddress"] + item.photoReview)" title="@item.productName">
+                                        <img src="@(Configuration["BaseAddress"] + item.photoReview)" style="width:40%" alt="@item.productName" />
                                     </a>
                                 </td>
 
@@ -129,7 +129,7 @@
                                     @Html.ActionLink("Sửa", "Edit", new { id = item.idProduct }) |
                                     @Html.ActionLink("Xem", "Details", new { id = item.idProduct }) |
                                     @Html.ActionLink("Xóa", "Delete", new { id = item.idProduct }) |
-                                    @Html.ActionLink("Gán danh mục", "CategoryAssign", new { id = item.idProduct }) |
+                                    @Html.ActionLink("Them anh", "AddImage", new { id = item.idProduct }) |
                                 </td>
                             </tr>
                         }

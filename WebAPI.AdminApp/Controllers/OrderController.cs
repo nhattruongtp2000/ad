@@ -48,7 +48,6 @@ namespace WebAPI.AdminApp.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-
             var result = await _orderApiClient.GetById(id);
             return View(result);
         }

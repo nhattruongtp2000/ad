@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Utilities.Constants;
+using WebAPI.ViewModels.Catalog.ProductImages;
 using WebAPI.ViewModels.Catalog.Products;
 using WebAPI.ViewModels.Common;
 
@@ -176,6 +177,38 @@ namespace WebAPI.ApiIntegration
 
             var response = await client.PutAsync($"/api/products/" + request.idProduct, requestContent);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> AddImage(string idProduct, ProductImageCreateRequest request)
+        {
+            var sessions = _httpContextAccessor
+              .HttpContext
+              .Session
+              .GetString(SystemConstants.AppSettings.Token);
+
+            var a = RandomString(3);
+            var languageId = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var requestContent = new MultipartFormDataContent();
+            byte[] data;
+            using (var br = new BinaryReader(request.ImageFile.OpenReadStream()))
+            {
+                data = br.ReadBytes((int)request.ImageFile.OpenReadStream().Length);
+            }
+            ByteArrayContent bytes = new ByteArrayContent(data);
+            requestContent.Add(new StringContent(a), "idImage");
+            requestContent.Add(new StringContent(idProduct), "idProduct");
+            requestContent.Add(bytes, "ImageFile", request.ImageFile.FileName);
+
+
+            var response = await client.PostAsync($"/api/products/" + idProduct +"/2", requestContent);
+            return response.IsSuccessStatusCode;
+
+
         }
     }
 }

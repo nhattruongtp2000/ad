@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<WebAPI.ViewModels.Orders.OrderDetailsVm>
 @{ var Sum = 0;}
-@foreach (var item in Model)
+@*@foreach (var item in Model)
 {
     Sum = Model.Sum(x => x.quatity * x.totalPrice);
 }
-@{
+@{*@
     ViewData["Title"] = "Chi tiết ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -38,9 +38,6 @@
                             <th>
                                 So luong san pham
                             </th>
-                            <th>
-                                Gia
-                            </th>
 
                         </tr>
                     </thead>
@@ -60,36 +57,13 @@
                                 <td>
                                     @item.quatity
                                 </td>
-                                <td>
-                                    @item.totalPrice
-                                </td>
+                              
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-        </div>
-            <div class="table-responsive ">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr >                   
-                            <th class="float-right" style="color:red">
-                                Tổng cộng
-                            </th>                            
-
-                        </tr>
-                    </thead>
-                    <tbody>                      
-                            <tr >
-                                <td  class="float-right" style="color:red">
-                                    @Sum
-                                </td>
-                            </tr>
-                        
-                    </tbody>
-
-                </table>
-            </div>
+        </div>           
     </div>
 </div>
 <div>
