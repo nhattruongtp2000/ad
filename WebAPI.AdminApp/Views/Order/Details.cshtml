@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<WebAPI.ViewModels.Orders.OrderDetailsVm>
-@{ var Sum = 0;}
-@*@foreach (var item in Model)
-{
-    Sum = Model.Sum(x => x.quatity * x.totalPrice);
-}
-@{*@
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+    @{
     ViewData["Title"] = "Chi tiết ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -38,6 +34,9 @@
                             <th>
                                 So luong san pham
                             </th>
+                            <th>
+                                Ảnh sản phẩm
+                            </th>
 
                         </tr>
                     </thead>
@@ -57,13 +56,18 @@
                                 <td>
                                     @item.quatity
                                 </td>
-                              
+                                <td>
+                                    <a href="@(Configuration["BaseAddress"] + item.photoReview)" title="@item.idProduct">
+                                        <img src="@(Configuration["BaseAddress"] + item.photoReview)" style="width:40%" alt="@item.idProduct" />
+                                    </a>
+                                </td>
+
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-        </div>           
+        </div>
     </div>
 </div>
 <div>

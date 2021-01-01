@@ -29,10 +29,7 @@ namespace WebAPI.Application.Catalog.Brands
                 brandName = request.Name,
                 brandDetail=request.Details,
                 
-
             };
-
-
             _context.productBrand.Add(brand);
             await _context.SaveChangesAsync();
             return brand.idBrand;

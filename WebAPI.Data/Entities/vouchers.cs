@@ -9,7 +9,7 @@ namespace WebAPI.Data.Entities
         public string idVoucher { get; set; }
         public int price { get; set; }
 
-        public string expiredDate { get; set; }
+        public DateTime expiredDate { get; set; }
 
         public byte isUse { get; set; }
 

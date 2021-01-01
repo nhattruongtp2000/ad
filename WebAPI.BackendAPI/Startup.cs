@@ -22,6 +22,7 @@ using WebAPI.Application.Catalog.Orders;
 using WebAPI.Application.Catalog.Products;
 using WebAPI.Application.Catalog.Sizes;
 using WebAPI.Application.Catalog.Types;
+using WebAPI.Application.Catalog.Vouchers;
 using WebAPI.Application.Common;
 
 using WebAPI.Application.System.Roles;
@@ -68,6 +69,7 @@ namespace WebAPI.BackendAPI
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IColorService, ColorService>();
             services.AddTransient<ITypeService, TypeService>();
+            services.AddTransient<IVoucherService, VoucherService>();
 
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();

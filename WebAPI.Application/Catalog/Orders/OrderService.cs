@@ -81,8 +81,9 @@ namespace WebAPI.Application.Catalog.Orders
         {
 
             var query = from p in _context.odersDetails
+                        join pt in _context.products on p.idProduct equals pt.idProduct
 
-                        select new { p };
+                        select new { p,pt};
 
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
@@ -99,8 +100,7 @@ namespace WebAPI.Application.Catalog.Orders
                     idOder = x.p.idOder,
                     idProduct = x.p.idProduct,
                     quatity = x.p.quality,
-
-
+                    photoReview= x.pt.photoReview.Substring(22)
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<OrderDetailsVm>()
@@ -132,15 +132,17 @@ namespace WebAPI.Application.Catalog.Orders
 
         public async Task<List<OrderDetailsVm>> GetById(string id)
         {
-            var query = from p in _context.odersDetails                       
+            var query = from p in _context.odersDetails
+                        join pt in _context.products on p.idProduct equals pt.idProduct
                         where  p.idOrderList==id
-                        select new { p};
+                        select new { p,pt};
             return await query.Select(x => new OrderDetailsVm()
             {
                 idOrderList = x.p.idOrderList,
                 idOder = x.p.idOder,
                 idProduct = x.p.idProduct,
                 quatity = x.p.quality,
+                photoReview = x.pt.photoReview.Substring(22)
             }).ToListAsync();
         }
 

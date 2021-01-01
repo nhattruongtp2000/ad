@@ -97,6 +97,8 @@ namespace WebAPI.ApiIntegration
             requestContent.Add(new StringContent(request.idColor.ToString()), "idColor");
             requestContent.Add(new StringContent(request.idType.ToString()), "idType");
             requestContent.Add(new StringContent(request.idCategory.ToString()), "idCategory");
+            requestContent.Add(new StringContent(request.isSaling.ToString()), "isSaling");
+            requestContent.Add(new StringContent(request.expiredSalingDate.ToString()), "expiredSalingDate");
             var response = await client.PostAsync($"/api/products/", requestContent);
             return response.IsSuccessStatusCode;
         }

@@ -15,12 +15,10 @@ namespace WebAPI.AdminApp.Controllers
     public class BrandController : Controller
     {
         private readonly IBrandApiClient _brandApiClient;
-        private readonly IConfiguration _configuration;
         private readonly IProductApiClient _productApiClient;
-        public BrandController(IBrandApiClient brandApiClient, IConfiguration configuration, IProductApiClient productApiClient)
+        public BrandController(IBrandApiClient brandApiClient, IProductApiClient productApiClient)
         {
             _brandApiClient = brandApiClient;
-            _configuration = configuration;
             _productApiClient = productApiClient;
         }
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)

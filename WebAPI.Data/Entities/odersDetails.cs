@@ -12,6 +12,7 @@ namespace WebAPI.Data.Entities
         public string idProduct { get; set; }
         public int quality { get; set; }
 
+
         public odersList odersLists { get; set; }
 
         public products Products { get; set; }

@@ -140,9 +140,6 @@ namespace WebAPI.Data.Migrations
                     b.Property<int>("quality")
                         .HasColumnType("int");
 
-                    b.Property<int>("totalPrice")
-                        .HasColumnType("int");
-
                     b.HasKey("idOder");
 
                     b.HasIndex("idOrderList");
@@ -171,6 +168,9 @@ namespace WebAPI.Data.Migrations
                         .HasColumnType("VARCHAR(200)");
 
                     b.Property<int>("status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("totalPrice")
                         .HasColumnType("int");
 
                     b.HasKey("idOrderList");
@@ -513,8 +513,8 @@ namespace WebAPI.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("address")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<string>("avatar")
                         .HasMaxLength(200)
@@ -559,14 +559,14 @@ namespace WebAPI.Data.Migrations
                         {
                             idUser = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "af463510-7266-4d0f-94cd-eb363135d8e3",
+                            ConcurrencyStamp = "22f5c605-27e6-4ff1-8feb-e45b8b0f91f4",
                             Email = "nhattruongtp2000@gmail.com",
                             EmailConfirmed = true,
                             Id = "69BD714F-9576-45BA-B5B7-F00649BE00DE",
                             LockoutEnabled = false,
                             NormalizedEmail = "nhattruongtp2000@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPU6AStYblm936kq5uekgc1NsqsSSVqJ0o9Nd0toE0EU9WCaFP4iR6+YVyFCCHB90Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBYICRAzGfoEGewFTxCUTgEAyN6g891/MPIpfRXMHiO11Yw6mVYJqalUaKJdeEfupA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -589,9 +589,8 @@ namespace WebAPI.Data.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("VARCHAR(200)");
 
-                    b.Property<string>("expiredDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("expiredDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte>("isUse")
                         .ValueGeneratedOnAdd()

@@ -23,7 +23,7 @@ namespace WebAPI.Data.Configuration
             builder.Property(x => x.birthday).IsRequired();
             builder.Property(x => x.avatar).HasColumnType("VARCHAR").HasMaxLength(200);
 
-            builder.Property(x => x.address).HasColumnType("nvarchar").HasMaxLength(2000);
+            builder.Property(x => x.address).HasColumnType("nvarchar").HasMaxLength(400);
             builder.Property(x => x.note).IsRequired().HasColumnType("nvarchar").HasMaxLength(1000);
             builder.Property(x => x.province).HasColumnType("nvarchar").HasMaxLength(200);
 

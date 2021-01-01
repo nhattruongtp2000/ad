@@ -10,5 +10,6 @@ namespace WebAPI.ViewModels.Orders
         public string idOder { set; get; }
         public string idProduct { get; set; }
         public int quatity { get; set; }
+        public string photoReview { get; set; }
     }
 }

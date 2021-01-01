@@ -30,7 +30,7 @@ namespace WebAPI.AdminApp.Controllers
             _categoryApiClient = categoryApiClient;
         }
 
-        public async Task<IActionResult> Index(string keyword, string categoryId, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, string categoryId, int pageIndex = 1, int pageSize = 6)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 

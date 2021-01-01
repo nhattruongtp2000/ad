@@ -1,0 +1,65 @@
+﻿@model WebAPI.ViewModels.Catalog.Vouchers.VoucherCreateRequest
+
+@{
+    ViewData["Title"] = "Create Voucher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1 class="mt-4">Tạo mới Voucher</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Tạo mới Voucher</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index" asp-controller="Voucher">Về danh sách</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-8">
+                <form asp-action="Create" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="idVoucher" class="control-label"></label>
+                        <input asp-for="idVoucher" class="form-control" />
+                        <span asp-validation-for="idVoucher" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="price" class="control-label"></label>
+                        <input asp-for="price" class="form-control" />
+                        <span asp-validation-for="price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="isUse" class="control-label"></label>
+                        <input asp-for="isUse" class="form-control" />
+                        <span asp-validation-for="isUse" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="expiredDate" class="control-label"></label>
+                        <input asp-for="expiredDate" type="date" class="form-control" />
+                        <span asp-validation-for="expiredDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

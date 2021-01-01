@@ -63,6 +63,7 @@ namespace WebAPI.ApiIntegration
             if (response.IsSuccessStatusCode)
             {
                 var data = (List<T>)JsonConvert.DeserializeObject(body, typeof(List<T>));
+                
                 return data;
             }
             throw new Exception(body);

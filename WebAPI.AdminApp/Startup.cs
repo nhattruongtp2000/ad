@@ -58,6 +58,7 @@ namespace WebAPI.AdminApp
             services.AddTransient<IOrderApiClient, OrderApiClient>();
             services.AddTransient<IColorApiClient, ColorApiClient>();
             services.AddTransient<ITypeApiClient, TypeApiClient>();
+            services.AddTransient<IVoucherApiClient, VoucherApiClient>();
 
             IMvcBuilder builder = services.AddRazorPages();
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
